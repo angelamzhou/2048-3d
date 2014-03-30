@@ -140,13 +140,10 @@ Leap.loop(controllerOptions, function(frame) {
         case "circle":
             var r = new CustomEvent("rotate", {
           });
-            if ( gesture.state == "stop" ) {
-              document.dispatchEvent(r); 
-            }
+            document.dispatchEvent(r); 
 
             break;
         case "swipe":
-          if (gesture.state == "update" || gesture.state == "stop") break; 
           // e = $.Event("keydown");
           var e = new CustomEvent("swipe", {
             which: 0
