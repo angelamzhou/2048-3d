@@ -1,21 +1,27 @@
-function Tile(position, value, type) {
+function Tile(position, value) {
   this.x                = position.x;
   this.y                = position.y;
-  this.z                = position.z;
   this.value            = value || 2;
-  this.type             = type || 'number';
 
   this.previousPosition = null;
   this.mergedFrom       = null; // Tracks tiles that merged together
-  this.merged           = false;
 }
 
 Tile.prototype.savePosition = function () {
-  this.previousPosition = { x: this.x, y: this.y, z:this.z };
+  this.previousPosition = { x: this.x, y: this.y };
 };
 
 Tile.prototype.updatePosition = function (position) {
   this.x = position.x;
   this.y = position.y;
-  this.z = position.z;
+};
+
+Tile.prototype.serialize = function () {
+  return {
+    position: {
+      x: this.x,
+      y: this.y
+    },
+    value: this.value
+  };
 };
