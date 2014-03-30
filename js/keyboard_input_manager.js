@@ -52,6 +52,8 @@ KeyboardInputManager.prototype.listen = function () {
     var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
                     event.shiftKey;
     var mapped    = map[event.which];
+    console.log("mapped: " + mapped + "event.which: " + event.which); 
+
     var holdingMapped = holdingMap[event.which];
 
     if (!modifiers) {
@@ -69,6 +71,38 @@ KeyboardInputManager.prototype.listen = function () {
       if (event.which === 32) self.restart.bind(self)(event);
     }
   });
+
+    document.addEventListener("swipe", function (event) {
+    
+    console.log("mapped: " + mapped + "event.which: " + event.which); 
+    var mapped = map[event.which];
+
+      if (mapped !== undefined) {
+        event.preventDefault();
+        self.emit("move", mapped);
+      } else if (holdingMapped !== undefined) {
+        event.preventDefault();
+        self.emit("hidden", holdingMapped);
+      } else if (event.which >= 65 && event.which <= 90) {
+        event.preventDefault();
+        self.emit("rotate");
+      }
+
+      if (event.which === 32) self.restart.bind(self)(event);
+    
+  });
+
+    document.addEventListener("rotate", function (event) {
+    
+    console.log("rotate"); 
+
+        event.preventDefault();
+        self.emit("rotate");
+  
+  });
+
+
+
   document.addEventListener('keyup', function (event) {
     var holdingMapped = holdingMap[event.which];
     if (holdingMapped !== undefined) {
